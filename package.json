@@ -1,0 +1,27 @@
+{
+  "name": "aemm-plugin-context",
+  "version": "1.0.1",
+  "description": "AEMM Context Plugin",
+  "cordova": {
+  	"id": "aemm-plugin-context",
+  	"platforms": [
+  		"ios",
+  		"android"
+  	]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adobe-marketing-cloud-mobile/aemm-plugin-context.git"
+  },
+  "keywords": [
+    "cordova",
+    "context",
+    "cordova-ios",
+    "cordova-android",
+    "aem",
+    "aemm",
+    "aemmobile"
+  ],
+  "author": "Adobe",
+  "license": "Apache 2.0"
+}

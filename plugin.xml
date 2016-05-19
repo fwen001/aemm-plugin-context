@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:rim="http://www.blackberry.com/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="aemm-plugin-context"
+    version="1.0.1">
+    <name>AEMM Context Plugin</name>
+    <description>AEMM Context Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,context,aem,aemm,aemmobile</keywords>
+    <repo>https://github.com/adobe-marketing-cloud-mobile/aemm-plugin-context.git</repo>
+    
+    <js-module src="www/CQMContextError.js" name="cqmcontexterror">
+         <clobbers target="cq.mobile.contextError" />
+    </js-module>
+
+	<js-module src="www/CQMContext.js" name="cqmcontext">
+            <clobbers target="cq.mobile.context" />
+    </js-module>
+    
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="CQMContext">
+                <param name="ios-package" value="CQMContext" />
+            </feature>
+        </config-file>
+    </platform>
+    
+    <!-- android -->
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="CQMContext">
+                <param name="android-package" value="com.adobe.dps.viewer.extensibility.context.CQMContext"/>
+            </feature>
+        </config-file>
+    </platform>
+
+    <!-- windows -->
+    <platform name="windows">
+        <js-module src="src/windows/CQMContextProxy.js" name="CQMContextProxy">
+            <merges target="" />
+        </js-module>
+    </platform>
+</plugin>
