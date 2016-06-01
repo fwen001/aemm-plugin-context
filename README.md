@@ -105,6 +105,44 @@ var prevEntity = cq.mobile.context.previousEntity;
 - iOS
 - Windows
 
+## Context Methods
+- context.getEntity(entityName, entityType, forceUpdate, successCallback, errorCallback)
+- context.getEntitlementInfo(entityOrEntityList, successCallback, errorCallback)
+ 
+## context.getEntity(entityName, entityType, forceUpdate, successCallback, errorCallback)
+
+A method that returns an Entity object given the entityName and the entityType
+
+| Parameter | Type | Description |
+| --- | --- | ---|
+| entityName | String | The name of the entity. This must match the name found on Content Portal |
+| entityType | String | The type of entity. Must match values found in Entity.type |
+| forceUpdate | BOOL | If 'true', always query the server for the latest version |
+| successCallback | Function | The success callback |
+| errorCallback | Function | The error callback |
+
+### Supported Platforms
+
+- Android
+- iOS
+
+## context.getEntitlementInfo(entityOrEntityList, successCallback, errorCallback)
+
+A method that returns entitlement information for an entity of type collection, or an EntityList
+object that contains collections. 
+If a non collection Entity object is passed, then we will immediately return CQMContextError.WRONG_ENTITY_TYPE_ERROR. If an EntityList object is passed, only entitlementInfo for collection objects will be returned. If there are no collections, the returning array will be empty.
+
+| Parameter | Type | Description |
+| --- | --- | ---|
+| entityOrEntityList | Entity or EntityList | The entity to obtain entitlement information for. Or the entityList that contains a list of entities to obtain entitlement information for. |
+| successCallback | Function | The success callback |
+| errorCallback | Function | The error callback |
+
+### Supported Platforms
+
+- Android
+- iOS
+
 ## Entity Properties
 
 - Entity.id
@@ -114,8 +152,9 @@ var prevEntity = cq.mobile.context.previousEntity;
 ## Entity Methods
 
 - getThumbnailImage(width, height, successCallback, errorCallback)
-- getBackgroundImage = function(width, height, successCallback, errorCallback)
-- getSocialSharingImage = function(width, height, successCallback, errorCallback)
+- getBackgroundImage(width, height, successCallback, errorCallback)
+- getSocialSharingImage(width, height, successCallback, errorCallback)
+- getChildren(successCallback, errorCallback)
 
 ## Entity.id
 
@@ -135,7 +174,8 @@ var string = cq.mobile.context.entity.id;
 
 ## Entity.type
 
-The `Entity.type` returns the type of the entity.
+The `Entity.type` returns the type of the entity. 
+Current supported types are: 'article', 'collection', and 'banner'
 
 ### Supported Platforms
 
@@ -191,22 +231,22 @@ var metadata = cq.mobile.context.entity.metadata;
 
 | Name | Type | Support for Entity |
 | --- | --- | --- |
-| department         | String           | Article, Collection |
-| importance         | String           | Article, Collection |
-| keywords           | Array of Strings | Article, Collection |
-| title              | String           | Article, Collection |
-| shortTitle         | String           | Article, Collection |
-| shortAbstract      | String           | Article, Collection |
-| availabilityDate   | String           | Article, Collection |
-| socialShareUrl     | String           | Article, Collection |
-| category           | String           | Article, Collection |
-| abstract           | String           | Article, Collection |
-| published          | String           | Article, Collection |
-| modified           | String           | Article, Collection |
-| created            | String           | Article, Collection |
-| version            | String           | Article, Collection |
-| entityName         | String           | Article, Collection |
-| url                | String           | Article, Collection |
+| department         | String           | Article, Collection, Banner |
+| importance         | String           | Article, Collection, Banner |
+| keywords           | Array of Strings | Article, Collection, Banner |
+| title              | String           | Article, Collection, Banner |
+| shortTitle         | String           | Article, Collection, Banner |
+| shortAbstract      | String           | Article, Collection, Banner |
+| availabilityDate   | String           | Article, Collection, Banner |
+| socialShareUrl     | String           | Article, Collection, Banner |
+| category           | String           | Article, Collection, Banner |
+| abstract           | String           | Article, Collection, Banner |
+| published          | String           | Article, Collection, Banner |
+| modified           | String           | Article, Collection, Banner |
+| created            | String           | Article, Collection, Banner |
+| version            | String           | Article, Collection, Banner |
+| entityName         | String           | Article, Collection, Banner |
+| url                | String           | Article, Collection, Banner |
 | author             | String           | Article |
 | authorUrl          | String           | Article |
 | articleText        | String           | Article |
@@ -222,6 +262,7 @@ var metadata = cq.mobile.context.entity.metadata;
 | readingPosition    | String           | Collection |
 | lateralNavigation  | Boolean          | Collection |
 | productIds         | Array of Strings | Collection |
+| tapAction          | String           | Banner |
 
 ### Supported Platforms
 
@@ -253,13 +294,7 @@ success callback. Supported on the Article and Collection entities.
 - iOS
 - Windows
 
-### Quick Example
-
-```javascript
-
-```
-
-## getBackgroundImage = function(width, height, successCallback, errorCallback)
+## getBackgroundImage(width, height, successCallback, errorCallback)
 
 A method that returns file url to the background image as argument of the
 success callback. Supported on the Collection entity.
@@ -277,13 +312,7 @@ success callback. Supported on the Collection entity.
 - iOS
 - Windows
 
-### Quick Example
-
-```javascript
-
-```
-
-## getSocialSharingImage = function(width, height, successCallback, errorCallback)
+## getSocialSharingImage(width, height, successCallback, errorCallback)
 
 A method that returns file url to the social sharing image as argument of the 
 success callback. Supported on the Collection Entity.
@@ -301,8 +330,52 @@ success callback. Supported on the Collection Entity.
 - iOS
 - Windows
 
-### Quick Example
+## getChildren(successCallback, errorCallback)
 
-```javascript
+A method that returns an EntityList object that will contain all the 
+non-restricted child entities for this collection that are in the cache. 
+If none exist, we will attempt to download the first server page of children
+Supported on the Collection Entity.
 
-```
+| Parameter | Type | Description |
+| --- | --- | ---|
+| successCallback | Function | The success callback |
+| errorCallback | Function | The error callback |
+
+### Supported Platforms
+
+- Android
+- iOS
+
+## EntityList Properties
+
+- EntityList.entities
+- EntityList.hasNextPage
+
+## EntityList Methods
+
+- getNextPage(successCallback, errorCallback)
+
+## EntityList.entities
+The EntityList.entities is an array that contains Entity objects.
+
+### Supported Platforms
+- Android
+- iOS
+ 
+## EntityList.hasNextPage
+The EntityList.hasNextPage is a BOOL determines if there are sibling entities yet to be retrieved.
+
+### Supported Platforms
+- Android
+- iOS
+
+## getNextPage(successCallback, errorCallback)
+
+A method that updates the EntityList object with additional Entity items. It also updates the 
+hasNextPage property.
+
+| Parameter | Type | Description |
+| --- | --- | ---|
+| successCallback | Function | The success callback |
+| errorCallback | Function | The error callback |
