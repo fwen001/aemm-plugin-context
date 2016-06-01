@@ -157,6 +157,9 @@ EntityList.prototype.getNextPage = function(successCallback, errorCallback) {
     exec(bind(this, success), fail, "CQMContext", "getNextPage", [this._parentId, this._parentVersion, this._parentVisibilityHash]);
 };
 
+/**
+ *	Helper method to convert a list of json representation of entities into a list of Entity objects
+ */
 EntityList.prototype._processRawEntities = function(rawEntities) {
     var theEntities = [];
     for (var i = 0; i < rawEntities.length; i++) {
