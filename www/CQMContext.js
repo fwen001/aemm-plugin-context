@@ -154,7 +154,7 @@ EntityList.prototype.getNextPage = function(successCallback, errorCallback) {
         var ce = new CQMContextError(code);
         errorCallback(ce);
     };
-exec(bind(this, success), fail, "CQMContext", "getNextPage", [this._parentId, this._parentVersion, this._parentVisibilityHash]);
+    exec(bind(this, success), fail, "CQMContext", "getNextPage", [this._parentId, this._parentVersion, this._parentVisibilityHash]);
 };
 
 /**
