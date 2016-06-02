@@ -13,10 +13,10 @@
 
 var argscheck = require('cordova/argscheck'),
 	channel = require('cordova/channel'),
-    utils = require('cordova/utils'),
-    exec = require('cordova/exec'),
-    cordova = require('cordova'),
-    CQMContextError = require('./cqmcontexterror');
+	utils = require('cordova/utils'),
+	exec = require('cordova/exec'),
+	cordova = require('cordova'),
+	CQMContextError = require('./cqmcontexterror');
 
 channel.createSticky('onCordovaContextInfoReady');
 channel.waitForInitialization('onCordovaContextInfoReady');
@@ -25,9 +25,9 @@ channel.waitForInitialization('onCordovaContextInfoReady');
  * Utility function to bind methods with a scope
  */
 function bind(scope, fn) {
-    return function () {
-        fn.apply(scope, arguments);
-    };
+	return function () {
+		fn.apply(scope, arguments);
+	};
 }
 
 /**
@@ -35,7 +35,7 @@ function bind(scope, fn) {
  * @constructor
  */
 var Entity = function(newEntity) {
-    this.id = newEntity.id;
+	this.id = newEntity.id;
 	this.type = newEntity.type;
 	this.metadata = newEntity.metadata;
 	this.rootPath = newEntity.rootPath;
@@ -55,14 +55,14 @@ Entity.prototype.getChildren = function(successCallback, errorCallback) {
 	}
 	
 	var success = successCallback && function(rawEntityList) {
-			var entityList = new EntityList(rawEntityList)
-			successCallback(entityList);
-		};
+		var entityList = new EntityList(rawEntityList);
+		successCallback(entityList);
+	};
 
 	var fail = errorCallback && function(code) {
-			var ce = new CQMContextError(code);
-			errorCallback(ce);
-		};
+		var ce = new CQMContextError(code);
+		errorCallback(ce);
+	};
 
 	exec(success, fail, "CQMContext", "getChildren", [this.id, this.metadata.version, this.metadata.visibilityHash]);
 };
@@ -91,7 +91,7 @@ Entity.prototype.getThumbnailImage = function(width, height, successCallback, er
  * @throws {TypeError} width, height must be numbers
  */
 Entity.prototype.getBackgroundImage = function(width, height, successCallback, errorCallback) {
-    this._getImage(width, height, "getBackgroundImage", successCallback, errorCallback);
+	this._getImage(width, height, "getBackgroundImage", successCallback, errorCallback);
 };
 
 /**
@@ -104,7 +104,7 @@ Entity.prototype.getBackgroundImage = function(width, height, successCallback, e
  * @throws {TypeError} width, height must be numbers
  */
 Entity.prototype.getSocialSharingImage = function(width, height, successCallback, errorCallback) {
-    this._getImage(width, height, "getSocialSharingImage", successCallback, errorCallback);
+	this._getImage(width, height, "getSocialSharingImage", successCallback, errorCallback);
 };
 
 Entity.prototype._getImage = function(width, height, endpoint, successCallback, errorCallback) {
@@ -114,14 +114,14 @@ Entity.prototype._getImage = function(width, height, endpoint, successCallback, 
 		return;
 	}
 	var fail = errorCallback && function(code) {
-    	var ce = new CQMContextError(code);
-        errorCallback(ce);
-    };
-    exec(successCallback, fail, "CQMContext", endpoint, [width, height, this.id, this.type]);
+		var ce = new CQMContextError(code);
+		errorCallback(ce);
+	};
+	exec(successCallback, fail, "CQMContext", endpoint, [width, height, this.id, this.type]);
 };
 
 /**
- * This represents the an entity list.
+ * This represents an entity list.
  * @constructor
  */
 var EntityList = function(entityList) {
@@ -145,27 +145,27 @@ EntityList.prototype.getNextPage = function(successCallback, errorCallback) {
 		return;
 	}
 	var success = successCallback && function(entityList) {
-			this.entities = this._processRawEntities(entityList.entities);
-			this.hasNextPage = entityList.hasNextPage;
-			successCallback(entityList);
-		};
+		this.entities = this._processRawEntities(entityList.entities);
+		this.hasNextPage = entityList.hasNextPage;
+		successCallback(entityList);
+	};
 
 	var fail = errorCallback && function(code) {
-    	var ce = new CQMContextError(code);
-        errorCallback(ce);
-    };
-    exec(bind(this, success), fail, "CQMContext", "getNextPage", [this._parentId, this._parentVersion, this._parentVisibilityHash]);
+		var ce = new CQMContextError(code);
+		errorCallback(ce);
+	};
+exec(bind(this, success), fail, "CQMContext", "getNextPage", [this._parentId, this._parentVersion, this._parentVisibilityHash]);
 };
 
 /**
- *	Helper method to convert a list of json representation of entities into a list of Entity objects
+ * Helper method to convert a list of json representation of entities into a list of Entity objects
  */
 EntityList.prototype._processRawEntities = function(rawEntities) {
-    var theEntities = [];
-    for (var i = 0; i < rawEntities.length; i++) {
-        theEntities.push(new Entity(rawEntities[i]));
-    }
-    return theEntities;
+	var theEntities = [];
+	for (var i = 0; i < rawEntities.length; i++) {
+		theEntities.push(new Entity(rawEntities[i]));
+	}
+	return theEntities;
 };
 
 
@@ -174,27 +174,27 @@ EntityList.prototype._processRawEntities = function(rawEntities) {
  * @constructor
  */
 function CQMContext() {
-    this.type = null;
+	this.type = null;
 	this.entity = null;
 	this.collection = null;
 	this.nextEntity = null;
 	this.previousEntity = null;
 
-    var me = this;
+	var me = this;
 
-    channel.onCordovaReady.subscribe(function() {
-        me.getInfo(function(info) {
-            me.type = info.type;
+	channel.onCordovaReady.subscribe(function() {
+		me.getInfo(function(info) {
+			me.type = info.type;
 			me.entity = new Entity(info.entity);
 			me.collection = info.hasOwnProperty('collection') ? new Entity(info.collection) : null;
 			me.nextEntity = info.hasOwnProperty('nextEntity') ? new Entity(info.nextEntity) : null;
 			me.previousEntity = info.hasOwnProperty('previousEntity') ? new Entity(info.previousEntity) : null;
-            
-            channel.onCordovaContextInfoReady.fire();
-        },function(e) {
-            utils.alert("[ERROR] Error initializing Cordova: " + e);
-        });
-    });
+
+			channel.onCordovaContextInfoReady.fire();
+		},function(e) {
+			utils.alert("[ERROR] Error initializing Cordova: " + e);
+		});
+	});
 }
 
 /**
@@ -204,7 +204,7 @@ function CQMContext() {
  * @param {Function} errorCallback The function to call when there is an error getting the context data. (OPTIONAL)
  */
 CQMContext.prototype.getInfo = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "CQMContext", "getInfo", []);
+	exec(successCallback, errorCallback, "CQMContext", "getInfo", []);
 };
 
 /**
@@ -237,19 +237,16 @@ CQMContext.prototype.getEntity = function(entityName, entityType, forceUpdate, s
 		throw TypeError('Names must be limited to 64 characters. The value must start and end with a letter or number and can also contain dots, dashes, and underscores');
 	}
 
-
-	// Names must be limited to 64 characters. The value must start and end with a letter or number and can also contain dots, dashes, and underscore
-	
 	var success = successCallback && function(rawEntity) {
 		var entity = new Entity(rawEntity)
 		successCallback(entity);
-    };
-    
-    var fail = errorCallback && function(code) {
-    	var ce = new CQMContextError(code);
-        errorCallback(ce);
-    };
-    exec(success, fail, "CQMContext", "getEntity", [entityName, entityType, forceUpdate]);
+	};
+
+	var fail = errorCallback && function(code) {
+		var ce = new CQMContextError(code);
+		errorCallback(ce);
+	};
+	exec(success, fail, "CQMContext", "getEntity", [entityName, entityType, forceUpdate]);
 };
 
 /**
@@ -269,11 +266,11 @@ CQMContext.prototype.getEntitlementInfo = function(entityOrEntityList, successCa
 	} else if (entityOrEntityList instanceof EntityList) {
 
 		var entityNames = [];
-    	for (var i = 0; i < entityOrEntityList.entities.length; i++) {
-    		entityNames.push([entityOrEntityList.entities[i].type, entityOrEntityList.entities[i].metadata.entityName]);
-    	}
+		for (var i = 0; i < entityOrEntityList.entities.length; i++) {
+			entityNames.push([entityOrEntityList.entities[i].type, entityOrEntityList.entities[i].metadata.entityName]);
+		}
 
-    	this._getEntitlementInfo(entityNames, successCallback, errorCallback);
+		this._getEntitlementInfo(entityNames, successCallback, errorCallback);
 
 	} else {
 		throw TypeError('Wrong type for parameter object, expected Entity or EntityList');
@@ -283,9 +280,9 @@ CQMContext.prototype.getEntitlementInfo = function(entityOrEntityList, successCa
 CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback, errorCallback) {
 
 	var fail = errorCallback && function(code) {
-			var ce = new CQMContextError(code);
-			errorCallback(ce);
-		};
+		var ce = new CQMContextError(code);
+		errorCallback(ce);
+	};
 
 	exec(successCallback, fail, "CQMContext", "getEntitlementInfo", [entityNames]);
 };
