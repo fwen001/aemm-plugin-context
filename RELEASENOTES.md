@@ -23,6 +23,9 @@
 ### 1.2 (Jul 14, 2016)
 * Provide getScrollPosition() for Context
 
+### 1.1.1 (Jul 1, 2016)
+* Fix bug in allowed entity names for getEntity()
+
 ### 1.1.0 (Jun 3, 2016)
 * Provide getEntity() and getEntitlementInfo() for Context
 * Provide getChildren() for Entity

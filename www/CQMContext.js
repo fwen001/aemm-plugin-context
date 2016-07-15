@@ -253,7 +253,7 @@ CQMContext.prototype.getEntity = function(entityName, entityType, forceUpdate, s
         throw TypeError('Wrong type for parameter forceUpdate, expected boolean');
     }
 
-    var entityNameRegex = /^[a-zA-Z0-9]+(?:[a-zA-Z0-9|_|-|.]*[a-zA-Z0-9]|[a-zA-Z0-9]*)$/;
+    var entityNameRegex = /^[a-zA-Z0-9]+(?:[a-zA-Z0-9|_|\-|.]*[a-zA-Z0-9]|[a-zA-Z0-9]*)$/;
 
     if (entityName.length < 1 ||
         entityName.length > 64 ||
