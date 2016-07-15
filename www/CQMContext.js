@@ -31,7 +31,16 @@ function bind(scope, fn) {
 }
 
 /**
- * This represents the an entity.
+ * This represents a ScrollPosition.
+ * @constructor
+ */
+var ScrollPosition = function(scrollPositionInfo) {
+    this.currentPageNumber = scrollPositionInfo.currentPageNumber;
+    this.totalPageCount = scrollPositionInfo.totalPageCount;
+};
+
+/**
+ * This represents an entity.
  * @constructor
  */
 var Entity = function(newEntity) {
@@ -205,6 +214,21 @@ function CQMContext() {
  */
 CQMContext.prototype.getInfo = function(successCallback, errorCallback) {
     exec(successCallback, errorCallback, "CQMContext", "getInfo", []);
+};
+
+/**
+ * Get context scroll position
+ *
+ * @param {Function} successCallback The function to call scroll position information is available
+ */
+CQMContext.prototype.getScrollPosition = function(successCallback) {
+	argscheck.checkArgs('f', 'CQMContext.getScrollPosition', arguments);
+	
+	    var success = successCallback && function(rawScrollPosition) {
+        var scrollPosition = new ScrollPosition(rawScrollPosition)
+        successCallback(scrollPosition);
+    };
+    exec(success, null, "CQMContext", "getScrollPosition", []);
 };
 
 /**
