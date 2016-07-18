@@ -221,14 +221,14 @@ CQMContext.prototype.getInfo = function(successCallback, errorCallback) {
  *
  * @param {Function} successCallback The function to call with scroll position information
  */
-CQMContext.prototype.getScrollPosition = function(successCallback) {
+CQMContext.prototype.getScrollPosition = function(successCallback, errorCallback) {
 	argscheck.checkArgs('f', 'CQMContext.getScrollPosition', arguments);
 	
 	    var success = successCallback && function(rawScrollPosition) {
         var scrollPosition = new ScrollPosition(rawScrollPosition)
         successCallback(scrollPosition);
     };
-    exec(success, null, "CQMContext", "getScrollPosition", []);
+    exec(success, errorCallback, "CQMContext", "getScrollPosition", []);
 };
 
 /**
