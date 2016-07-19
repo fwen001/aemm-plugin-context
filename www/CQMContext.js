@@ -31,12 +31,13 @@ function bind(scope, fn) {
 }
 
 /**
- * This represents a ScrollPosition.
- * @constructor
+ * This class represents the location of content on an article.
+ * @property {number}  pageNumber         - The page number on which the content resides. Zero-based. If HTML, will always be zero.
+ * @property {number}  totalPageCount     - The total number of pages for the article that the content belongs to. If HTML, will always be 1. 
  */
-var ScrollPosition = function(scrollPositionInfo) {
-    this.currentPageNumber = scrollPositionInfo.currentPageNumber;
-    this.totalPageCount = scrollPositionInfo.totalPageCount;
+var ContentLocation = function(contentLocationInfo) {
+    this.pageNumber = contentLocationInfo.pageNumber;
+    this.totalPageCount = contentLocationInfo.totalPageCount;
 };
 
 /**
@@ -219,16 +220,17 @@ CQMContext.prototype.getInfo = function(successCallback, errorCallback) {
 /**
  * Get scroll position for current context
  *
- * @param {Function} successCallback The function to call with scroll position information
+ * @param {Function} successCallback The function to call with scroll position information. Will return ContentLocation object.
+ * @param {Function} errorCallback The function to call when there is an error getting the content location data. (OPTIONAL)
  */
-CQMContext.prototype.getScrollPosition = function(successCallback, errorCallback) {
-	argscheck.checkArgs('f', 'CQMContext.getScrollPosition', arguments);
+CQMContext.prototype.getContentLocation = function(successCallback, errorCallback) {
+	argscheck.checkArgs('fF', 'CQMContext.getContentLocation', arguments);
 	
-	    var success = successCallback && function(rawScrollPosition) {
-        var scrollPosition = new ScrollPosition(rawScrollPosition)
-        successCallback(scrollPosition);
+	    var success = successCallback && function(rawContentLocation) {
+        var contentLocation = new ContentLocation(rawContentLocation)
+        successCallback(contentLocation);
     };
-    exec(success, errorCallback, "CQMContext", "getScrollPosition", []);
+    exec(success, errorCallback, "CQMContext", "getContentLocation", []);
 };
 
 /**
