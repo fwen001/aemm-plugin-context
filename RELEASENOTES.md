@@ -21,7 +21,7 @@
 # Release Notes
 
 ### 1.2 (Jul 14, 2016)
-* Provide getScrollPosition() for Context
+* Provide getContentLocation() for Context
 
 ### 1.1.1 (Jul 1, 2016)
 * Fix bug in allowed entity names for getEntity()
