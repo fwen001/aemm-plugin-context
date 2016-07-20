@@ -20,7 +20,7 @@
 -->
 # Release Notes
 
-### 1.2 (Jul 14, 2016)
+### 1.2.0 (Jul 20, 2016)
 * Provide getContentLocation() for Context
 
 ### 1.1.1 (Jul 1, 2016)
