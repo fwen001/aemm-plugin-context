@@ -20,6 +20,9 @@
 -->
 # Release Notes
 
+### 1.2.1 (Oct 7, 2016)
+* Fix regex to allow dots, dashes, underscores at end of names
+
 ### 1.2.0 (Jul 20, 2016)
 * Provide getContentLocation() for Context
 
