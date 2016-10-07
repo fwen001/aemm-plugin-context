@@ -255,11 +255,9 @@ CQMContext.prototype.getEntity = function(entityName, entityType, forceUpdate, s
         throw TypeError('Wrong type for parameter forceUpdate, expected boolean');
     }
 
-    var entityNameRegex = /^[a-zA-Z0-9]+(?:[a-zA-Z0-9|_|\-|.]*[a-zA-Z0-9]|[a-zA-Z0-9]*)$/;
+    var entityNameRegex = /^[a-zA-Z0-9]{1}[a-zA-Z0-9|_|\-|.]{0,63}$/;
 
-    if (entityName.length < 1 ||
-        entityName.length > 64 ||
-        entityNameRegex.test(entityName) == false) {
+    if (entityNameRegex.test(entityName) == false) {
         throw TypeError('Names must be limited to 64 characters. The value must start and end with a letter or number and can also contain dots, dashes, and underscores');
     }
 
