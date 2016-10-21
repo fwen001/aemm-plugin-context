@@ -217,6 +217,23 @@ CQMContext.prototype.getInfo = function(successCallback, errorCallback) {
     exec(successCallback, errorCallback, "CQMContext", "getInfo", []);
 };
 
+/** 
+ * Refresh context info
+ */
+CQMContext.prototype.refreshInfo = function() {
+    var me = this;
+    me.getInfo(function(info) {
+            me.type = info.type;
+            me.entity = new Entity(info.entity);
+            me.collection = info.hasOwnProperty('collection') ? new Entity(info.collection) : null;
+            me.nextEntity = info.hasOwnProperty('nextEntity') ? new Entity(info.nextEntity) : null;
+            me.previousEntity = info.hasOwnProperty('previousEntity') ? new Entity(info.previousEntity) : null;
+            console.log("refreshInfo success...");
+        },function(e) {
+            utils.alert("[ERROR] Error refreshInfo : " + e);
+        });
+};
+
 /**
  * Get scroll position for current context
  *
