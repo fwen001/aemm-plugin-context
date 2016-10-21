@@ -220,7 +220,7 @@ CQMContext.prototype.getInfo = function(successCallback, errorCallback) {
 /** 
  * Refresh context info
  */
-CQMContext.prototype.refreshInfo = function() {
+CQMContext.prototype.refreshInfo = function(successCallback, errorCallback) {
     var me = this;
     me.getInfo(function(info) {
             me.type = info.type;
@@ -229,8 +229,10 @@ CQMContext.prototype.refreshInfo = function() {
             me.nextEntity = info.hasOwnProperty('nextEntity') ? new Entity(info.nextEntity) : null;
             me.previousEntity = info.hasOwnProperty('previousEntity') ? new Entity(info.previousEntity) : null;
             console.log("refreshInfo success...");
+            successCallback();
         },function(e) {
             utils.alert("[ERROR] Error refreshInfo : " + e);
+            errorCallback();
         });
 };
 
